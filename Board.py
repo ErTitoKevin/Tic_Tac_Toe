@@ -69,5 +69,9 @@ def play_game():
         if winner in (x,o):
             win_message = winner + " has won the game!!"
             return win_message
+
+def make_ai_choice():
+    return "a_1"
+
 print(play_game())
 
