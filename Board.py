@@ -27,29 +27,35 @@ def make_board_string():
     return board_string
 
 
+
 #Reads the players input
 def read_choice():
     choice = input("Choose your move: ")
     while True:
         coord = choice[:3]  # Board Key
         x_or_o = choice[4:5]  # X or O choice
+        if board[coord] != blank:
+            input("The move you choose already exists, please try again: ")
+            continue
         if coord in board and x_or_o in (x, o):
             return coord, x_or_o
         else:
             choice = input("Your input was not valid, please try again: ")
 
 
+
+#Defines who won the game, or if its a tie
 def get_winner():
   if blank not in board.values():
     return "TIE"
   for combo in winning_combos:
       key1, key2, key3 = combo
-      if board[key1, key2, key3] == (x,o):
-          return (x,o)
-
-
-
-
+      val1 = board[key1]
+      val2 = board[key2]
+      val3 = board[key3]
+      if val1 == val2 == val3:
+          if val1 in (x,o):
+              return val1
 #Places the chosen piece into the make_board_string
 def play_game():
     print(make_board_string())
@@ -63,12 +69,5 @@ def play_game():
         if winner in (x,o):
             win_message = winner + " has won the game!!"
             return win_message
-
-
 print(play_game())
-
-
-
-
-
 
