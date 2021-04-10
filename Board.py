@@ -1,7 +1,5 @@
 x = "X"
 o = "O"
-x_move = []
-o_move = []
 blank = "-"
 board = {"a_1": blank, "b_1": blank, "c_1": blank,
          "a_2": blank, "b_2": blank, "c_2": blank,
@@ -22,7 +20,7 @@ board_template = """
                                           |     |     
                                                             """
 #Creates the basic playing board
-def make_board_string():
+def print_board():
     board_string = board_template.format(*board.values())
     return board_string
 
@@ -32,18 +30,15 @@ def make_board_string():
 def read_choice():
     choice = input("Choose your move: ")
     while True:
-        coord = choice[:3]  # Board Key
-        x_or_o = choice[4:5]  # X or O choice
-        if board[coord] != blank:
-            input("The move you choose already exists, please try again: ")
-            continue
-        if coord in board and x_or_o in (x, o):
-            return coord, x_or_o
-        else:
+        coord = choice
+        if coord not in board:
             choice = input("Your input was not valid, please try again: ")
-
-
-
+            continue
+        if board[coord] != blank:
+            choice = input("The move you choose already exists, please try again: ")
+            continue
+        if coord in board:
+            return coord
 #Defines who won the game, or if its a tie
 def get_winner():
   if blank not in board.values():
@@ -58,11 +53,11 @@ def get_winner():
               return val1
 #Places the chosen piece into the make_board_string
 def play_game():
-    print(make_board_string())
+    print(print_board())
     while True:
-        coordinate, piece = read_choice()
-        board[coordinate] = piece
-        print(make_board_string())
+        coordinate = read_choice()
+        board[coordinate] = x
+        print(print_board())
         winner = get_winner()
         if winner == "TIE":
             return "The Game is a Tie!"
